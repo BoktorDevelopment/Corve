@@ -11,8 +11,7 @@ namespace CorveTool.DAL.Models
         [Key]
         public int Id { get; set;}
         public DateTime When { get; set; }
-        public int TaskID { get; set; }
-
+        
         public List<ScheduleTask> ScheduleTask { get; set; }
     }
 }
