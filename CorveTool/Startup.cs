@@ -1,4 +1,6 @@
 ﻿using CorveTool.DAL.Context;
+using CorveTool.DAL.Models;
+using CorveTool.DAL.repositorys;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -32,7 +34,12 @@ namespace CorveTool
 
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
 
+            DatabaseContext.ConnectionString = Configuration.GetConnectionString("DatabaseContext");
+            services.AddDbContext<DatabaseContext>();
+
             services.AddMvc();
+            services.AddSingleton<IRepository<Schedules>>(new SchedulesRepository(new DatabaseContext()));
+            services.AddSingleton<IRepository<Tasks>>(new TasksRepository(new DatabaseContext()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

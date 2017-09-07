@@ -12,7 +12,7 @@ namespace CorveTool.DAL.Models
         public int Id { get; set; }
         public string Task { get; set; }
 
-        public List<ScheduleTask> ScheduleTask { get; set;}
+        
 
     }
 }

@@ -5,12 +5,14 @@ namespace CorveTool.DAL.Context
 {
     public class DatabaseContext : DbContext
     {
+        public static string ConnectionString { get; set; }
+
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Schedules> Schedules { get; set; }
-        public DbSet<ScheduleTask> Schedule_Task { get; set; }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options)
-            : base(options)
-        { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(ConnectionString);
+        }
     }
 }
