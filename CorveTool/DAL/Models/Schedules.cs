@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace CorveTool.DAL.Models
 {
-    public class Schedules 
+    public class Schedules : IDb
     {
         [Key]
-        public int ScheduleID { get; set;}
+        public int Id { get; set;}
         public DateTime When { get; set; }
         public int TaskID { get; set; }
-        public int UserID { get; set; }
+
+        public List<ScheduleTask> ScheduleTask { get; set; }
     }
 }

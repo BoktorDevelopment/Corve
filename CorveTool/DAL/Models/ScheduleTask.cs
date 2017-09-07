@@ -6,11 +6,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CorveTool.DAL.Models
 {
-    public class ScheduleTask : ISchedule
+    public class ScheduleTask : IDb
     {
+        
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         public int TaskID { get; set; }
+        
         public int ScheduleID { get; set; }
+
+        public List<Schedules> Schedules { get; set; }
+        public List<Tasks> Tasks { get; set; }
     }
 }
