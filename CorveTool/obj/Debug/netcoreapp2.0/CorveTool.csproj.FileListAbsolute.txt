@@ -1,0 +1,12 @@
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.deps.json
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.runtimeconfig.json
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.runtimeconfig.dev.json
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.dll
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.pdb
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.csprojResolveAssemblyReference.cache
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.csproj.CoreCompileInputs.cache
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.AssemblyInfoInputs.cache
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.AssemblyInfo.cs
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.dll
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.pdb
+C:\Users\krisb\Source\Repos\CorveTool\CorveTool\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
