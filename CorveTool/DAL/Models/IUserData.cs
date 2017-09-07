@@ -16,6 +16,6 @@ namespace CorveTool.DAL
         string Email { get; set; }
         string SlackName { get; set; }
 
-        //string getSlackName() { return SlackName;  }
+        string getFullName();
     }
 }

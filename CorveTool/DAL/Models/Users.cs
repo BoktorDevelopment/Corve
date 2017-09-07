@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
-namespace CorveTool.DAL.Models
-{
+using System.ComponentModel.DataAnnotations;
+
+namespace CorveTool.DAL.Models { 
+   
     public class Users : IUserData
     {
+        [Key]
         public int UserId { get ; set; }
         public string FirstName { get; set ; }
         public string Insertion { get ; set ; }
@@ -14,12 +17,9 @@ namespace CorveTool.DAL.Models
         public string Email { get; set; }
         public string SlackName { get; set; }
 
-       
-       /* string IUserData.getSlackName()
+        string IUserData.getFullName()
         {
-            return this.SlackName;
-            fddsfsad
+            return this.FirstName + this.Insertion + this.LastName;
         }
-        */
     }
 }
