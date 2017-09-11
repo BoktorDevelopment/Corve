@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CorveTool.DAL.Models
@@ -12,8 +9,6 @@ namespace CorveTool.DAL.Models
         public int Id { get; set; }
         public string Task { get; set; }
 
-        public List<ScheduleTask> ScheduleTask { get; set;}
-
+        public List<SchedulesTasks> Schedules { get; set; }
     }
 }
- 
