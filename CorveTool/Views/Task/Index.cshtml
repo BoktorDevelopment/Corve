@@ -1,7 +1,39 @@
-﻿
+﻿@using CorveTool.DAL.repositorys;
+@using CorveTool.DAL.Models;
+@using CorveTool.DAL.Context;
 @{
     ViewData["Title"] = "Index";
+
+
+    List<TasksViewModel> tasks = (List<TasksViewModel>)ViewData["tasks"];
+
+
+
 }
 
-<h2>Index</h2>
+<h2>Tasks</h2>  
+    <table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Task</th>
+        <th></th>
+        <th></th>
+    </tr>
+    
+   @foreach (var item in tasks)
+    {
+      <tr>
+         <td>@item.Id</td>
+         <td>@item.Task</td>
+         <td><a href="/../Task/Remove?id=@item.Id">Delete</a></td>  
+         <td>@Html.ActionLink("Edit", "Update", new { id = item.Id})</td>
 
+     </tr>
+        }
+</table>
+
+
+
+    @{ 
+        
+    }

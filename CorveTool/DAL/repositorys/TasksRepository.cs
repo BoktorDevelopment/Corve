@@ -17,7 +17,7 @@ namespace CorveTool.DAL.repositorys
             _context = context;
            
         }
-        public async void Add(Tasks item)
+        public async Task Add(Tasks item)
         {
             _context.Add(item);
             await _context.SaveChangesAsync();
@@ -33,7 +33,7 @@ namespace CorveTool.DAL.repositorys
             return await _context.Tasks.ToListAsync();
         }
 
-        public async void Remove(int id)
+        public async Task Remove(int id)
         {
             var entity = _context.Tasks.First(x => x.Id == id);
             _context.Tasks.Remove(entity);
@@ -41,7 +41,7 @@ namespace CorveTool.DAL.repositorys
             await _context.SaveChangesAsync();
         }
 
-        public async void Update(Tasks item)
+        public async Task Update(Tasks item)
         {
             _context.Tasks.Update(item);
             await _context.SaveChangesAsync();

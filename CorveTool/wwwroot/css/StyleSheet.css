@@ -1,0 +1,12 @@
+﻿h2 {
+    font-family: Verdana, Arial, sans-serif;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.right {
+    position: relative;
+    top: -40px;
+    float: right;
+}
+

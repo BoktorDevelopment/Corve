@@ -1,7 +1,26 @@
-﻿
+﻿@using CorveTool.DAL.repositorys;
+@using CorveTool.DAL.Models;
+@using CorveTool.DAL.Context;
 @{
     ViewData["Title"] = "Add";
+
+
+
+
+
 }
 
-<h2>Add</h2>
-<h1>Add Page for Tasks</h1>
+<h2>Add a Task</h2>
+<div style="width: 200px;">
+@using (Html.BeginForm("Add", "Task")) { 
+<form action="/" method="post">
+    <input type="text" class="form-control" name="task" value="" required/>
+    <input type="submit" class="form-control" name="Send task" value="Send task" />
+</form>
+}   
+</div>
+
+
+
+
+

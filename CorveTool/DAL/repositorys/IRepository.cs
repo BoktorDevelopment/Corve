@@ -7,10 +7,9 @@ namespace CorveTool.DAL.repositorys
 {
     public interface IRepository<T> where T : class, IDb
     {
-        void Add(T item);
-        Task<IEnumerable<T>> GetAll();
-        Task<T> Find(int key);
-        void Remove(int key);
-        void Update(T item);
+        Task Add(T item);
+        Task<IEnumerable<T>> GetAll();       
+        Task Remove(int key);
+        Task Update(T item);
     }
 }

@@ -20,18 +20,30 @@ namespace CorveTool.DAL.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("CorveTool.DAL.Models.CheckList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Checked");
+
+                    b.Property<int>("TaskId");
+
+                    b.Property<int>("WeekNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CheckList");
+                });
+
             modelBuilder.Entity("CorveTool.DAL.Models.Schedules", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ScheduleTaskId");
-
                     b.Property<DateTime>("When");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ScheduleTaskId");
 
                     b.ToTable("Schedules");
                 });
@@ -41,9 +53,13 @@ namespace CorveTool.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("User");
+
+                    b.Property<int>("Week");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Schedule_Task");
+                    b.ToTable("ScheduleTask");
                 });
 
             modelBuilder.Entity("CorveTool.DAL.Models.Tasks", b =>
@@ -51,29 +67,29 @@ namespace CorveTool.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ScheduleTaskId");
-
                     b.Property<string>("Task");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduleTaskId");
-
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("CorveTool.DAL.Models.Schedules", b =>
+            modelBuilder.Entity("CorveTool.DAL.Models.Users", b =>
                 {
-                    b.HasOne("CorveTool.DAL.Models.ScheduleTask")
-                        .WithMany("Schedules")
-                        .HasForeignKey("ScheduleTaskId");
-                });
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity("CorveTool.DAL.Models.Tasks", b =>
-                {
-                    b.HasOne("CorveTool.DAL.Models.ScheduleTask")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ScheduleTaskId");
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("SlackName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

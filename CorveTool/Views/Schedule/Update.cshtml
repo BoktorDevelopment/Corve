@@ -1,7 +1,48 @@
-﻿
+﻿@using CorveTool.DAL.repositorys;
+@using CorveTool.DAL.Models;
+@using CorveTool.DAL.Context;
 @{
-    ViewData["Title"] = "Update";
+    ViewData["Title"] = "Add";
+
+    List<UsersViewModel> users = (List<UsersViewModel>)ViewData["users"];
 }
 
 <h2>Update</h2>
+<div style="color: red;">
 
+    
+
+</div>
+<div style="width:200px;">
+
+    @using (Html.BeginForm("update", "Schedule"))
+    {
+        <select id="user" class="form-control" name="user">
+            <option name="placeholder" disabled selected>Select user</option>
+            @foreach (var item in users)
+            {
+                <option name="option" value="@item.FirstName">@item.FirstName @item.LastName</option>
+            }
+        </select>
+
+        <input type="text" id="other" style="display:none;" class="form-control" name="user" value="" placeholder="other user" />
+
+        <a href="#" onclick="SwitchToOther()">Not registered user</a>
+        <input type="submit" class="form-control" name="Save" value="Save" />
+    }
+</div>
+
+<script type="text/javascript">
+    function SwitchToOther() {
+        var other = document.getElementById("other");
+        var user = document.getElementById("user");
+        if (other.style.display  == "none") {
+            other.style.display = "block";
+            user.style.display = "none";
+        } else {
+            other.style.display = "none";
+            user.style.display = "block";
+
+        }
+    }
+</script>

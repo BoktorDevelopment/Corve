@@ -1,7 +1,21 @@
-﻿
+﻿@using System.Web;
+@model TasksViewModel
 @{
     ViewData["Title"] = "Update";
+
+    
 }
 
 <h2>Update</h2>
+@using (Html.BeginForm("Update", "Task"))
+{
+    
+    <input type="text" name="task" value="@Model.Task" />  
+    <input type="submit" name="tasksend" value="Update Task" />
 
+}
+@{ 
+   
+
+    
+}

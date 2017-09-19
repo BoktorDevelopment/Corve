@@ -32,14 +32,15 @@ namespace CorveTool
             .AddAzureAd(options => Configuration.Bind("AzureAd", options))
             .AddCookie();
 
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseContext")));
+            services.AddDbContext<DatabaseContext>();
 
             DatabaseContext.ConnectionString = Configuration.GetConnectionString("DatabaseContext");
             services.AddDbContext<DatabaseContext>();
 
             services.AddMvc();
-            services.AddSingleton<IRepository<Schedules>>(new SchedulesRepository(new DatabaseContext()));
+            services.AddSingleton<IRepository<ScheduleTask>>(new ScheduleTaskRepository(new DatabaseContext()));
             services.AddSingleton<IRepository<Tasks>>(new TasksRepository(new DatabaseContext()));
+            services.AddSingleton<IRepository<Schedules>>(new ScheduleRepository(new DatabaseContext()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
