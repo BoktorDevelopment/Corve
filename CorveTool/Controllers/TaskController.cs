@@ -29,15 +29,14 @@ namespace CorveTool.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Tasks model)
         {
-            string name = Request.Form["task"].ToString();
 
-            if (name != "") {
-                var hoi = new Tasks
+            if (model.Task != "") {
+                var task = new Tasks
                 {
-                    Task = name
+                    Task = model.Task
                 };
 
-                await taskrepository.Add(hoi);
+                await taskrepository.Add(task);
             }
             return View();
         }
@@ -53,7 +52,7 @@ namespace CorveTool.Controllers
             if (!ModelState.IsValid) return View(model);
             try
             {
-                var task = Request.Form["task"];
+               
 
                 Tasks record = await taskrepository.Find(model.Id);
 

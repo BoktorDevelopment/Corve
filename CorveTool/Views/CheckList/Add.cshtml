@@ -1,7 +1,25 @@
 ﻿
 @{
     ViewData["Title"] = "Add";
+
+    List<TasksViewModel> tasks = (List<TasksViewModel>)ViewData["tasks"];
 }
 
 <h2>Add</h2>
-
+@using (Html.BeginForm("add", "CheckList"))
+{
+    <select class="form-control" name="task">
+        @foreach (var item in tasks)
+        {
+            <option name="taskid" value="@item.Id">@item.Task</option>
+        }
+    </select>
+    <select class="form-control" name="weeknumber">
+        <option value="disable" disabled selected>WeekNumber</option>
+        @for (int i = 1; i < int.Parse(ViewData["weeknumbers"].ToString()) + 1; i++)
+        {
+            <option name="@i">@i.ToString()</option>
+        }
+    </select>
+    <input type="submit" name="name" class="form-control" value="Add task" />
+}

@@ -1,7 +1,13 @@
-﻿
+﻿@using CorveTool.Models;
 @{
     ViewData["Title"] = "Index";
+   @model List<CheckListViewModel> ;
 }
 
 <h2>Index</h2>
 
+@foreach (var item in Model)
+{
+    item.WeekNumber.ToString();
+    item.Task.ToString();
+}

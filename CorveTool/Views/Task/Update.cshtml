@@ -10,7 +10,7 @@
 @using (Html.BeginForm("Update", "Task"))
 {
     
-    <input type="text" name="task" value="@Model.Task" />  
+    <input type="text" pattern=".{3,}" name="task" value="@Model.Task" required/>  
     <input type="submit" name="tasksend" value="Update Task" />
 
 }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+using CorveTool.DAL.Models;
 
-namespace CorveTool.DAL.Models
+namespace CorveTool.Models
 {
-    public class CheckList : IDb
+    public class CheckListViewModel
     {
-        [Key]
         public int Id { get; set; }
         public Tasks Task { get; set; }
         public bool Checked { get; set; }

@@ -15,13 +15,17 @@ namespace CorveTool.Controllers
 {
     public class ScheduleController : Controller
     {
-        private int year = 2017;
+        private int year = DateTime.Now.Year;
+        private int weeknumber;
+        private int weeknumbers;
+
 
         DatabaseContext db { get; set; }
         ScheduleTaskRepository Scheduletaskrepository { get; set; }
         ScheduleRepository Schedulesrepository { get; set; }
         TasksRepository tasksrepository { get; set; }
         UsersRepository usersrepository { get; set; }
+        public int Weeknumber { get => weeknumber; set => weeknumber = value; }
 
         public ScheduleController()
         {
@@ -30,22 +34,28 @@ namespace CorveTool.Controllers
             Schedulesrepository = new ScheduleRepository(db);
             tasksrepository = new TasksRepository(db);
             usersrepository = new UsersRepository(db);
-        }
 
-        public async Task<IActionResult> Index()
-        {
-            //calculate how many weeks in a year
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(year, 12, 31);
-            Calendar cal = dfi.Calendar;
-            ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                dfi.FirstDayOfWeek);
-            //get week number of year
+            //get week number of the year
             var culture = CultureInfo.GetCultureInfo("cs-CZ");
             var dateTimeInfo = DateTimeFormatInfo.GetInstance(culture);
             var dateTime = DateTime.Today;
             int weekNumber = culture.Calendar.GetWeekOfYear(dateTime, dateTimeInfo.CalendarWeekRule, dateTimeInfo.FirstDayOfWeek);
-            ViewData["weekNumber"] = weekNumber;
+           int weeknumber = weekNumber;
+
+            //get total weeknumbers in year
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            DateTime date1 = new DateTime(year, 12, 31);
+            Calendar cal = dfi.Calendar;
+            weeknumbers = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
+                                                dfi.FirstDayOfWeek);
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            //weeknumbers in year
+            ViewData["weeknumbers"] = weeknumbers;
+            //get week number of year
+            ViewData["weekNumber"] = Weeknumber;
 
             //get al the info from the database for the schedule
 
@@ -64,17 +74,10 @@ namespace CorveTool.Controllers
             ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName}).ToList();
             ViewData["tasks"] = tasks.Select(x => new TasksViewModel { Id = x.Id, Task = x.Task }).ToList();
             //calculate how many weeks in a year
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(year, 12, 31);
-            Calendar cal = dfi.Calendar;
-            ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                dfi.FirstDayOfWeek);
+
+            ViewData["weeknumbers"] = weeknumbers;
             //get week number of year
-            var culture = CultureInfo.GetCultureInfo("cs-CZ");
-            var dateTimeInfo = DateTimeFormatInfo.GetInstance(culture);
-            var dateTime = DateTime.Today;
-            int weekNumber = culture.Calendar.GetWeekOfYear(dateTime, dateTimeInfo.CalendarWeekRule, dateTimeInfo.FirstDayOfWeek);
-            ViewData["weekNumber"] = weekNumber;
+           
 
             ViewData["error"] = "";
 
@@ -90,12 +93,8 @@ namespace CorveTool.Controllers
             if (db.ScheduleTask.Any(x => x.Week == weeknumber))
             {
                 ViewData["error"] = "Error - this weeknumber is already scheduled";
-                //calculate how many weeks in a year
-                DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-                DateTime date1 = new DateTime(year, 12, 31);
-                Calendar cal = dfi.Calendar;
-                ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                    dfi.FirstDayOfWeek);
+
+                ViewData["weeknumbers"] = weeknumbers;
 
                 var users = await usersrepository.GetAll();
                 ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName }).ToList();
@@ -144,12 +143,8 @@ namespace CorveTool.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int week)
         {
-            //calculate how many weeks in a year
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(year, 12, 31);
-            Calendar cal = dfi.Calendar;
-            ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                dfi.FirstDayOfWeek);
+
+            ViewData["weeknumbers"] = weeknumbers;
 
             var users = await usersrepository.GetAll();
             ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName }).ToList();
@@ -158,24 +153,6 @@ namespace CorveTool.Controllers
             ScheduleTaskViewModel record = new ScheduleTaskViewModel { Id = res.Id, User = res.User, Week = res.Week };
 
             return View(record);
-        }
-        public IActionResult WeekSchedule()
-        {
-            //calculate how many weeks in a year
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            DateTime date1 = new DateTime(year, 12, 31);
-            Calendar cal = dfi.Calendar;
-            ViewData["weeknumbers"] =  cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
-                                                dfi.FirstDayOfWeek);      
-            //get week number of year
-            var culture = CultureInfo.GetCultureInfo("cs-CZ");
-            var dateTimeInfo = DateTimeFormatInfo.GetInstance(culture);
-            var dateTime = DateTime.Today;
-            int weekNumber = culture.Calendar.GetWeekOfYear(dateTime, dateTimeInfo.CalendarWeekRule, dateTimeInfo.FirstDayOfWeek);
-            ViewData["weekNumber"] = weekNumber;
-
-
-            return View();
         }
     }
 }
