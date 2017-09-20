@@ -2,3 +2,11 @@ bin/
 node_modules/
 obj/
 .vs/
+
+*.ide
+
+*.user
+
+*.cache
+*.dll
+*.pdb
