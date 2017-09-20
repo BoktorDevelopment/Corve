@@ -7,7 +7,7 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://192.168.8.105:49853/",
+      "applicationUrl": "http://192.168.8.103:49853/",
       "sslPort": 44338
     }
   },
@@ -15,7 +15,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "https://192.168.8.105:44339/",
+      "launchUrl": "https://192.168.8.103:44338/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
