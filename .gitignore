@@ -1,11 +1,4 @@
-
-.vs/CorveTool/v15/sqlite3/storage.ide
-.vs/CorveTool/v15/.suo
-.vs/CorveTool/v15/.suo
-*.ide
-CorveTool/bin/Debug/netcoreapp2.0/CorveTool.dll
-CorveTool/bin/Debug/netcoreapp2.0/CorveTool.pdb
-CorveTool/CorveTool.csproj.user
-CorveTool/obj/CorveTool.csproj.nuget.cache
-CorveTool/obj/Debug/netcoreapp2.0/CorveTool.dll
-CorveTool/obj/Debug/netcoreapp2.0/CorveTool.pdb
+bin/
+node_modules/
+obj/
+.vs/
