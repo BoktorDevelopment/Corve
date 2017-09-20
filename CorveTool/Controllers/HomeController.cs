@@ -1,11 +1,9 @@
-﻿using CorveTool.Models;
+﻿using CorveTool.DAL.Models;
+using CorveTool.DAL.Repositories;
+using CorveTool.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using CorveTool.DAL.Context;
-using CorveTool.DAL.repositorys;
-using CorveTool.DAL.Models;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CorveTool.Controllers
@@ -14,20 +12,23 @@ namespace CorveTool.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        DatabaseContext db { get; set; }
-        UsersRepository userrepository { get; set; }
-        public HomeController()
+        private IRepository<Schedules> ScheduleRepository { get; set; }
+        private IRepository<Tasks> TaskRepository { get; set; }
+        private IRepository<Users> UserRepository { get; set; }
+
+        public HomeController(IRepository<Schedules> scheduleRepository, IRepository<Tasks> taskRepository, IRepository<Users> userRepository)
         {
-            db = new DatabaseContext();
-            userrepository = new UsersRepository(db);
+            ScheduleRepository = scheduleRepository;
+            TaskRepository = taskRepository;
+            UserRepository = userRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             var UserEmail = User.Identity.Name;
-            if (db.Users.Any(x => x.Email == UserEmail))
+            if (UserRepository.Find(UserEmail) != null)
             {
-                Users user = await userrepository.Find(UserEmail);
+                Users user = await UserRepository.Find(UserEmail);
                 ViewData["firstname"] = user.FirstName;
                 ViewData["lastname"] = user.LastName;
                 ViewData["email"] = user.Email;
@@ -81,14 +82,14 @@ namespace CorveTool.Controllers
                 SlackName = slackname
             };
 
-            await userrepository.Add(userinfo);
+            await UserRepository.Add(userinfo);
 
             return Redirect(nameof(Index));
         }
         [HttpGet]
         public IActionResult Register()
         {
-            if (db.Users.Any(x => x.Email == User.Identity.Name))
+            if (UserRepository.Find(User.Identity.Name) != null)
             {
                 return Redirect(nameof(Index));
             }

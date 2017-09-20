@@ -1,35 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CorveTool.DAL.Models;
+using CorveTool.DAL.Repositories;
+using CorveTool.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CorveTool.DAL.repositorys;
-using CorveTool.DAL.Context;
-using CorveTool.DAL.Models;
-using CorveTool.Models;
-using System.Globalization;
 
 namespace CorveTool.Controllers
 {
     public class CheckListController : Controller
     {
-        
+
         private int year = DateTime.Now.Year;
 
-        DatabaseContext Db { get; set; }
-        CheckListRepository Checklistrepository { get; set; }
-        TasksRepository Taskrepository { get; set; }
-        public CheckListController()
-        { 
-            Db = new DatabaseContext();
-            Checklistrepository = new CheckListRepository(Db);
-            Taskrepository = new TasksRepository(Db);
+        private IRepository<Tasks> TaskRepository { get; set; }
+        private IRepository<CheckList> ChecklistRepository { get; set; }
+
+        public CheckListController(IRepository<Schedules> scheduleRepository, IRepository<Tasks> taskRepository, IRepository<Users> userRepository, IRepository<CheckList> checklistRepository)
+        {
+            TaskRepository = taskRepository;
+            ChecklistRepository = checklistRepository;
         }
+
         public IActionResult Index()
         {
-            ViewData["query"] = Db.CheckList.ToList();
+            ViewData["query"] = ChecklistRepository.GetAll();
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(CheckList model)
         {
@@ -38,12 +37,14 @@ namespace CorveTool.Controllers
 
             var info = new CheckList
             {
-                  WeekNumber = weeknumber, Checked = false
+                WeekNumber = weeknumber,
+                Checked = false
             };
-            await Checklistrepository.Add(info);
+            await ChecklistRepository.Add(info);
 
             return Redirect(nameof(Index));
         }
+
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -54,15 +55,17 @@ namespace CorveTool.Controllers
             ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
                                                 dfi.FirstDayOfWeek);
 
-            var tasks = await Taskrepository.GetAll();
+            var tasks = await TaskRepository.GetAll();
             ViewData["tasks"] = tasks.Select(x => new TasksViewModel { Id = x.Id, Task = x.Task }).ToList();
 
             return View();
         }
+
         public IActionResult Delete()
         {
             return View();
         }
+
         public IActionResult Update()
         {
             return View();
