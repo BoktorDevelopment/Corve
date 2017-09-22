@@ -1,4 +1,4 @@
-﻿@using CorveTool.DAL.repositorys;
+﻿@using CorveTool.DAL.Repositories;
 @using CorveTool.DAL.Models;
 @using CorveTool.DAL.Context;
 @{
@@ -17,7 +17,7 @@
 
     @using (Html.BeginForm("update", "Schedule"))
     {
-        <select id="user" class="form-control" name="user">
+        <select id="user" class="form-control" name="user" >
             <option name="placeholder" disabled selected>Select user</option>
             @foreach (var item in users)
             {
@@ -26,6 +26,7 @@
         </select>
 
         <input type="text" id="other" style="display:none;" class="form-control" name="user" value="" placeholder="other user" />
+        <input type="text" name="Week" value="@ViewData["week"]" style="display:none;"/>
 
         <a href="#" onclick="SwitchToOther()">Not registered user</a>
         <input type="submit" class="form-control" name="Save" value="Save" />

@@ -19,7 +19,6 @@ namespace CorveTool
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://*:49853;http://localhost:49853")
                 .UseStartup<Startup>()
                 .Build();
     }

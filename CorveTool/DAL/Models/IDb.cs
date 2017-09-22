@@ -10,8 +10,5 @@ namespace CorveTool.DAL
     {
         [Key]
         int Id { get; set; }
-        
-
-       
     }
 }

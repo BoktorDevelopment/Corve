@@ -1,13 +1,34 @@
-﻿@using CorveTool.Models;
+﻿@model List<CheckListViewModel>
 @{
     ViewData["Title"] = "Index";
-   @model List<CheckListViewModel> ;
+
+
+   
 }
 
 <h2>Index</h2>
+<a href="Checklist/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+@ViewData["test"]
 
-@foreach (var item in Model)
-{
-    item.WeekNumber.ToString();
-    item.Task.ToString();
-}
+    @using (Html.BeginForm("Index", "CheckList", FormMethod.Post))
+    {
+        <div style="width: 200px">
+            <input class="form-control" type="submit" name="save" value="Save" />
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <th>Task</th>
+                <th>Check</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                if (ViewData["weeknumber"].ToString() == item.WeekNumber.ToString() && item.Checked == false)
+                {
+                    <tr>
+                        <td>@item.Task.Task || @item.WeekNumber</td>
+                        <td><input type="checkbox" name="Checked" value="@item.Id" /></td>    
+                    </tr>
+                }
+            }
+        </table>
+    }

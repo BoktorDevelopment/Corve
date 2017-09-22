@@ -1,4 +1,4 @@
-﻿@using CorveTool.DAL.repositorys;
+﻿@using CorveTool.DAL.Repositories;
 @using CorveTool.DAL.Models;
 @using CorveTool.DAL.Context;
 @{
@@ -11,29 +11,23 @@
 
 }
 
-<h2>Tasks</h2>  
-    <table class="table table-hover">
+<h2>Tasks</h2>
+<a href="Task/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+<table class="table table-hover">
     <tr>
         <th>#</th>
         <th>Task</th>
         <th></th>
         <th></th>
     </tr>
-    
-   @foreach (var item in tasks)
+
+    @foreach (var item in tasks)
     {
-      <tr>
-         <td>@item.Id</td>
-         <td>@item.Task</td>
-         <td><a href="/../Task/Remove?id=@item.Id">Delete</a></td>  
-         <td>@Html.ActionLink("Edit", "Update", new { id = item.Id})</td>
-
-     </tr>
-        }
-</table>
-
-
-
-    @{ 
-        
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Task</td>
+            <td><a href="/../Task/Remove?id=@item.Id">Delete</a></td>
+            <td>@Html.ActionLink("Edit", "Update", new { id = item.Id })</td>
+        </tr>
     }
+</table>

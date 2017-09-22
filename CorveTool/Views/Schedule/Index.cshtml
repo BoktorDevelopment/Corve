@@ -1,5 +1,6 @@
 ﻿@using CorveTool.DAL.Context;
 @using CorveTool.DAL.Models;
+@using CorveTool.DAL.Repositories;
 @{
 
     ViewData["Title"] = "Index";
@@ -25,6 +26,11 @@
 <h2>Schedule</h2>
 <a href="schedule/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 <table class="table table-hover">
+    <tr>
+        <th>WeekNumber:</th>
+        <th>Name:</th>
+        <th>Actions:</th>
+    </tr>
     @for (int i = 1; i < int.Parse(ViewData["weeknumbers"].ToString()) + 1; i++)
     {
         <tr>
@@ -34,11 +40,11 @@
                 {
                     @if (item.Week == i)
                     {
-                        @item.User.ToString();
-                        <p> </p>@Html.ActionLink("Edit", "Update", new{Week = item.Week }); 
+                        @item.User.ToString();   
                     }
                 }
-            </td>               
+            </td>    
+            <td>@Html.ActionLink("Edit", "Update", new { Week = i })</td>
         </tr>
     }
 </table>

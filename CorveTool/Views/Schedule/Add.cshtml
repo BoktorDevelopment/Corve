@@ -1,4 +1,4 @@
-﻿@using CorveTool.DAL.repositorys;
+﻿@using CorveTool.DAL.Repositories;
 @using CorveTool.DAL.Models;
 @using CorveTool.DAL.Context;
 @{
@@ -17,7 +17,7 @@
  
     @using (Html.BeginForm("add", "Schedule"))
     {
-        <select class="form-control" name="weeknumber">
+        <select class="form-control" name="Week" required>
             <option value="disable" disabled selected>WeekNumber</option>
             @for (int i = 1; i < int.Parse(ViewData["weeknumbers"].ToString()) + 1; i++)
             {

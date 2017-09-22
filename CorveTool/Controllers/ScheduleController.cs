@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CorveTool.DAL.Models;
+using CorveTool.DAL.Repositories;
+using CorveTool.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using CorveTool.DAL.repositorys;
-using CorveTool.DAL.Models;
-using CorveTool.DAL.Context;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using CorveTool.Models;
-using System.Globalization;
 
 namespace CorveTool.Controllers
 {
@@ -20,27 +16,26 @@ namespace CorveTool.Controllers
         private int weeknumbers;
 
 
-        DatabaseContext db { get; set; }
-        ScheduleTaskRepository Scheduletaskrepository { get; set; }
-        ScheduleRepository Schedulesrepository { get; set; }
-        TasksRepository tasksrepository { get; set; }
-        UsersRepository usersrepository { get; set; }
         public int Weeknumber { get => weeknumber; set => weeknumber = value; }
 
-        public ScheduleController()
+        private IRepository<Schedules> SchedulesRepository { get; set; }
+        private IRepository<ScheduleTask> ScheduleTaskRepository { get; set; }
+        private IRepository<Tasks> TasksRepository { get; set; }
+        private IRepository<Users> UsersRepository { get; set; }
+
+        public ScheduleController(IRepository<Schedules> schedulesRepository, IRepository<Tasks> tasksRepository, IRepository<Users> usersRepository, IRepository<ScheduleTask> scheduleTaskRepository)
         {
-            db = new DatabaseContext();
-            Scheduletaskrepository = new ScheduleTaskRepository(db);
-            Schedulesrepository = new ScheduleRepository(db);
-            tasksrepository = new TasksRepository(db);
-            usersrepository = new UsersRepository(db);
+            SchedulesRepository = schedulesRepository;
+            TasksRepository = tasksRepository;
+            UsersRepository = usersRepository;
+            ScheduleTaskRepository = scheduleTaskRepository;
 
             //get week number of the year
             var culture = CultureInfo.GetCultureInfo("cs-CZ");
             var dateTimeInfo = DateTimeFormatInfo.GetInstance(culture);
             var dateTime = DateTime.Today;
             int weekNumber = culture.Calendar.GetWeekOfYear(dateTime, dateTimeInfo.CalendarWeekRule, dateTimeInfo.FirstDayOfWeek);
-           int weeknumber = weekNumber;
+            int weeknumber = weekNumber;
 
             //get total weeknumbers in year
             DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
@@ -59,44 +54,42 @@ namespace CorveTool.Controllers
 
             //get al the info from the database for the schedule
 
-            var schedule = await Scheduletaskrepository.GetAll();
-            ViewData["info"] = schedule.Select(x => new ScheduleTaskViewModel { Week = x.Week, User = x.User}).ToList();
+            var schedule = await ScheduleTaskRepository.GetAll();
+            ViewData["info"] = schedule.Select(x => new ScheduleTaskViewModel { Week = x.Week, User = x.User }).ToList();
 
 
             return View();
-            
+
         }
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var tasks = await tasksrepository.GetAll();
-            var users = await usersrepository.GetAll();
-            ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName}).ToList();
+            var tasks = await TasksRepository.GetAll();
+            var users = await UsersRepository.GetAll();
+            ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName }).ToList();
             ViewData["tasks"] = tasks.Select(x => new TasksViewModel { Id = x.Id, Task = x.Task }).ToList();
             //calculate how many weeks in a year
 
             ViewData["weeknumbers"] = weeknumbers;
             //get week number of year
-           
+
 
             ViewData["error"] = "";
 
 
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(ScheduleTask model)
         {
-            int weeknumber = int.Parse(Request.Form["weeknumber"]);
-            var user = Request.Form["user"];
-
-            if (db.ScheduleTask.Any(x => x.Week == weeknumber))
+            if (ScheduleTaskRepository.Any(model.Week.ToString()) == true)
             {
                 ViewData["error"] = "Error - this weeknumber is already scheduled";
 
                 ViewData["weeknumbers"] = weeknumbers;
 
-                var users = await usersrepository.GetAll();
+                var users = await UsersRepository.GetAll();
                 ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName }).ToList();
                 return View();
             }
@@ -104,38 +97,36 @@ namespace CorveTool.Controllers
             {
                 var info = new ScheduleTask
                 {
-                    Week = weeknumber,
-                    User = user
+                    Week = model.Week,
+                    User = model.User
                 };
-                await Scheduletaskrepository.Add(info);
-                return RedirectToAction("../schedule/add");
+                ScheduleTaskRepository.Add(info);
+                return Redirect(nameof(Index));
             }
         }
+
         public async Task<IActionResult> Remove(int id)
         {
-          
+
             return Redirect("../");
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(ScheduleTask model)
         {
-           
-
             if (!ModelState.IsValid) return View(model);
             try
             {
-                var user = Request.Form["user"];
-
-                ScheduleTask record = await Scheduletaskrepository.Find(model.Week);
-
+                ScheduleTask record = await ScheduleTaskRepository.Find(model.Week);
                 record.User = model.User;
+                ScheduleTaskRepository.SaveChangesAsync();
 
-                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                var users = await UsersRepository.GetAll();
+                ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName }).ToList();
                 return View(model);
             }
         }
@@ -145,14 +136,12 @@ namespace CorveTool.Controllers
         {
 
             ViewData["weeknumbers"] = weeknumbers;
+            ViewData["week"] = week;
 
-            var users = await usersrepository.GetAll();
+            var users = await UsersRepository.GetAll();
             ViewData["users"] = users.Select(x => new UsersViewModel { Id = x.Id, FirstName = x.FirstName, LastName = x.LastName }).ToList();
 
-            var res = await Scheduletaskrepository.Find(week);
-            ScheduleTaskViewModel record = new ScheduleTaskViewModel { Id = res.Id, User = res.User, Week = res.Week };
-
-            return View(record);
+            return View();
         }
     }
 }

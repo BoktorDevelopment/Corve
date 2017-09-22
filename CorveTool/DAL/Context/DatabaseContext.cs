@@ -12,8 +12,9 @@ namespace CorveTool.DAL.Context
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Schedules> Schedules { get; set; }
         public DbSet<ScheduleTask> ScheduleTask { get; set; }
-        public DbSet<Users> Users { get; set; }
         public DbSet<CheckList> CheckList { get; set; }
+        public DbSet<Users> Users { get; set; }
+       
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

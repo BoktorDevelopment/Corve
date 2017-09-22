@@ -6,12 +6,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
+using CorveTool.DAL.Models;
+using CorveTool.DAL.Repositories;
+using CorveTool.DAL.Context;
 
 namespace CorveTool.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+
+        private IRepository<Users> UserRepository { get; set; }
+        public AccountController(IRepository<Users> userRepository)
+        {
+            UserRepository = userRepository; 
+        }
         [HttpGet]
         public IActionResult SignIn()
         {
@@ -47,6 +56,34 @@ namespace CorveTool.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(Users model)
+        {
+            var userinfo = new Users
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                SlackName = model.SlackName
+            };
+
+            UserRepository.Add(userinfo);
+
+            return Redirect("../Home/Index");
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var UserEmail = User.Identity.Name;
+            if (UserRepository.Any(UserEmail) == true)
+            {
+                return Redirect("../Home/Index");
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+<div style="width: 200px;">
+    @using (Html.BeginForm("Register", "Account"))
+    {
+        <input type="text" pattern=".{2,}" class="form-control" name="FirstName" value="" placeholder="FirstName" required/>
+        <input type="text" pattern=".{3,}" class="form-control" name="LastName" value="" placeholder="LastName" required/>
+        <input type="text" class="form-control" name="Email" value="@User.Identity.Name" readonly/>
+        <input type="text" pattern=".{2,}" class="form-control" name="SlackName" value="" placeholder="SlackName" required/>
+        <input type="submit" class="form-control" name="Register" value="Register" />
+    }
+</div>

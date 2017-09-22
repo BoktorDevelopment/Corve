@@ -11,9 +11,10 @@ using System;
 namespace CorveTool.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170920114610_createdatabase3")]
+    partial class createdatabase3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +28,7 @@ namespace CorveTool.DAL.Migrations
 
                     b.Property<bool>("Checked");
 
-                    b.Property<int>("TaskId");
+                    b.Property<int?>("TaskId");
 
                     b.Property<int>("WeekNumber");
 
@@ -98,8 +99,7 @@ namespace CorveTool.DAL.Migrations
                 {
                     b.HasOne("CorveTool.DAL.Models.Tasks", "Task")
                         .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TaskId");
                 });
 #pragma warning restore 612, 618
         }

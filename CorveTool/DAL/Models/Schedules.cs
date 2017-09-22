@@ -8,14 +8,8 @@ namespace CorveTool.DAL.Models
 {
     public class Schedules : IDb
     {
-
         [Key]
         public int Id { get; set; }
         public DateTime When { get; set; }
-
-
-      
-        
-
     }
 }
