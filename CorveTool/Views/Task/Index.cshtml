@@ -12,7 +12,7 @@
 }
 
 <h2>Tasks</h2>
-<a href="Task/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+<a href="Task/add" class="add-icon page-href"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 <table class="table table-hover">
     <tr>
         <th>#</th>
@@ -27,7 +27,7 @@
             <td>@item.Id</td>
             <td>@item.Task</td>
             <td><a href="/../Task/Remove?id=@item.Id">Delete</a></td>
-            <td>@Html.ActionLink("Edit", "Update", new { id = item.Id })</td>
+            <td>@Html.ActionLink("Edit", "Update", new { id = item.Id }, new { @class="page-href"})</td>
         </tr>
     }
 </table>

@@ -5,19 +5,20 @@
 
    
 }
-
-<h2>Index</h2>
-<a href="Checklist/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-@ViewData["test"]
+<div class="container">
+    <h2>Index</h2>
+    
+    @ViewData["test"]
 
     @using (Html.BeginForm("Index", "CheckList", FormMethod.Post))
     {
         <div style="width: 200px">
-            <input class="form-control" type="submit" name="save" value="Save" />
+            <input class="form-control save-button float-right" type="submit" name="save" value="Save" />
         </div>
+        <a href="Checklist/add" class="add-icon"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
         <table class="table table-hover">
             <tr>
-                <th>Task</th>
+                <th>This Week Tasks</th>
                 <th>Check</th>
             </tr>
             @foreach (var item in Model)
@@ -25,10 +26,11 @@
                 if (ViewData["weeknumber"].ToString() == item.WeekNumber.ToString() && item.Checked == false)
                 {
                     <tr>
-                        <td>@item.Task.Task || @item.WeekNumber</td>
-                        <td><input type="checkbox" name="Checked" value="@item.Id" /></td>    
+                        <td>@item.Task.Task</td>
+                        <td><input type="checkbox" name="Checked" value="@item.Id" /></td>
                     </tr>
                 }
             }
         </table>
     }
+</div>

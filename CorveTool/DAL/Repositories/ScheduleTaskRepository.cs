@@ -16,28 +16,28 @@ namespace CorveTool.DAL.Repositories
             _context = context;
         }
 
-        public async Task Add(ScheduleTask id)
+        public async void Add(ScheduleTask id)
         {
             _context.ScheduleTask.Add(id);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ScheduleTask> Find(string key)
-        {
-            return await _context.ScheduleTask.FirstOrDefaultAsync(x => x.User.ToString().Equals(key));
-        }
-
         public async Task<ScheduleTask> Find(int id)
         {
-            return await _context.ScheduleTask.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.ScheduleTask.FirstOrDefaultAsync(x => x.Week.Equals(id));
         }
 
-        public async Task<IEnumerable<ScheduleTask>> GetAll()
+        public async Task<ScheduleTask> FindAsync(string key)
         {
-            return await _context.ScheduleTask.ToListAsync();
+            return await _context.ScheduleTask.FirstOrDefaultAsync(x => x.User == key);
         }
 
-        public async Task Remove(int id)
+        public async Task<IQueryable<ScheduleTask>> GetAll()
+        {
+            return  _context.ScheduleTask;
+        }
+
+        public async void Remove(int id)
         {
             var query = _context.ScheduleTask.Single(x => x.Id == id);
             if (query == null) return;
@@ -45,7 +45,7 @@ namespace CorveTool.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(ScheduleTask item)
+        public async void Update(ScheduleTask item)
         {
             _context.ScheduleTask.Update(item);
             await _context.SaveChangesAsync();
@@ -54,6 +54,14 @@ namespace CorveTool.DAL.Repositories
         public async void SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+      
+
+        public bool Any(string key)
+        {
+            var result =_context.ScheduleTask.Any(x => x.Week == int.Parse(key));
+            return result;
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿h2 {
-    font-family: Verdana, Arial, sans-serif;
-    text-align: center;
-    color: #FFFFFF;
+﻿.add-icon {
+  float:right;
 }
-
-.right {
-    position: relative;
-    top: -40px;
-    float: right;
+.save-button { 
+    float: left;
+}
+page-href:hover{
+    text-decoration: none !important;
+    color: orange !important;
 }
 

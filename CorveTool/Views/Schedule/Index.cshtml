@@ -24,7 +24,7 @@
 }
 
 <h2>Schedule</h2>
-<a href="schedule/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+<a href="schedule/add" class="add-icon page-href"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 <table class="table table-hover">
     <tr>
         <th>WeekNumber:</th>
@@ -44,7 +44,7 @@
                     }
                 }
             </td>    
-            <td>@Html.ActionLink("Edit", "Update", new { Week = i })</td>
+            <td>@Html.ActionLink("Update", "Update", new { Week = i }, new { @class = "page-href" })</td>
         </tr>
     }
 </table>
