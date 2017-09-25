@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CorveTool.Slack;
+using System;
 
 namespace CorveTool.Controllers
 {
@@ -21,10 +23,23 @@ namespace CorveTool.Controllers
             ScheduleRepository = scheduleRepository;
             TaskRepository = taskRepository;
             UserRepository = userRepository;
+
+           
         }
 
         public async Task<IActionResult> Index()
         {
+            DateTime input = DateTime.Today;
+            int delta = DayOfWeek.Monday - input.DayOfWeek;
+            if (delta > 0)
+                delta -= 7;
+            DateTime monday = input.AddDays(delta);
+
+            if (monday == DateTime.Today && DateTime.Now.ToShortTimeString() == "11:53")
+            {
+                SlackClientTest slackclient = new SlackClientTest();
+            }
+
             var UserEmail = User.Identity.Name;
             if (UserRepository.Any(UserEmail) == true)
             {

@@ -5,21 +5,6 @@
 
     ViewData["Title"] = "Index";
 
-    //for the days above
-    DateTime input = DateTime.Now;
-    int delta = DayOfWeek.Monday - input.DayOfWeek;
-    DateTime monday = input.AddDays(delta);
-    string mondaystring = monday.ToShortDateString();
-
-    DateTime shortdate = DateTime.Parse(mondaystring);
-    DateTime startday = DateTime.Parse(shortdate.ToString());
-    DateTime endday = DateTime.Parse(shortdate.AddDays(6).ToString());
-
-    //for the time
-    DateTime startTime = DateTime.Parse("9:00:00");
-    DateTime endTime = DateTime.Parse("17:00:00");
-
-
     List<ScheduleTaskViewModel> info = (List<ScheduleTaskViewModel>)ViewData["info"];
 }
 

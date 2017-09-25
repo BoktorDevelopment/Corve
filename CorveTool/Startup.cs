@@ -1,6 +1,8 @@
 ﻿using CorveTool.DAL.Context;
 using CorveTool.DAL.Models;
 using CorveTool.DAL.Repositories;
+using CorveTool.Slack;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -8,6 +10,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin;
+using System;
+
+[assembly: OwinStartup(typeof(CorveTool.Startup))]
 
 namespace CorveTool
 {
@@ -36,12 +42,16 @@ namespace CorveTool
             DatabaseContext.ConnectionString = Configuration.GetConnectionString("DatabaseContext");
             services.AddDbContext<DatabaseContext>();
 
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DatabaseContext")));
+
             services.AddMvc();
             services.AddSingleton<IRepository<ScheduleTask>>(new ScheduleTaskRepository(new DatabaseContext()));
             services.AddSingleton<IRepository<Tasks>>(new TasksRepository(new DatabaseContext()));
             services.AddSingleton<IRepository<Schedules>>(new ScheduleRepository(new DatabaseContext()));
             services.AddSingleton<IRepository<CheckList>>(new CheckListRepository(new DatabaseContext()));
             services.AddSingleton<IRepository<Users>>(new UsersRepository(new DatabaseContext()));
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +78,16 @@ namespace CorveTool
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
+         
+                SlackClientTest slackclient = new SlackClientTest();
+
+
+            RecurringJob.AddOrUpdate(() => slackclient.Postmessage(), Cron.Weekly);
+
         }
     }
 }

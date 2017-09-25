@@ -9,3 +9,4 @@ C:\Users\krisb\Source\Repos\Corve\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.dl
 C:\Users\krisb\Source\Repos\Corve\CorveTool\bin\Debug\netcoreapp2.0\CorveTool.pdb
 C:\Users\krisb\Source\Repos\Corve\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.dll
 C:\Users\krisb\Source\Repos\Corve\CorveTool\obj\Debug\netcoreapp2.0\CorveTool.pdb
+C:\Users\krisb\Source\Repos\Corve\CorveTool\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
