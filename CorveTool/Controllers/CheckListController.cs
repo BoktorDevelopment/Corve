@@ -28,10 +28,11 @@ namespace CorveTool.Controllers
             var dateTimeInfo = DateTimeFormatInfo.GetInstance(culture);
             var dateTime = DateTime.Today;
             int weekNumber = culture.Calendar.GetWeekOfYear(dateTime, dateTimeInfo.CalendarWeekRule, dateTimeInfo.FirstDayOfWeek);
-             weeknumber = weekNumber;
+            weeknumber = weekNumber;
             ViewData["test"] = "";
 
         }
+
         [HttpPost]
         public async Task<IActionResult> Index(int[] Checked)
         {
@@ -43,14 +44,12 @@ namespace CorveTool.Controllers
             }
             return Redirect("../CheckList");
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var checklist = (await ChecklistRepository.GetAll()).Select(x => new CheckListViewModel { Id = x.Id, Task = x.Task, WeekNumber = x.WeekNumber, Checked = x.Checked}).ToList();
+            var checklist = (await ChecklistRepository.GetAll()).Select(x => new CheckListViewModel { Id = x.Id, Task = x.Task, WeekNumber = x.WeekNumber, Checked = x.Checked }).ToList();
             ViewData["weeknumber"] = weeknumber;
-
-          
-            
 
             return View(checklist);
         }

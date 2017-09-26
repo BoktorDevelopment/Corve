@@ -33,7 +33,7 @@ namespace CorveTool.DAL.Repositories
 
         public async Task<IQueryable<Schedules>> GetAll()
         {
-            return _context.Schedules;
+            return  _context.Schedules;
         }
 
         public async void Remove(int id)
