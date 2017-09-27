@@ -90,7 +90,7 @@ namespace CorveTool
                 SlackClientTest slackclient = new SlackClientTest();
 
 
-            RecurringJob.AddOrUpdate(() => slackclient.Postmessage(), "0 0 9 1/1 * ? *");
+            RecurringJob.AddOrUpdate(() => slackclient.Postmessage(), "0 9 * * *");
 
         }
     }

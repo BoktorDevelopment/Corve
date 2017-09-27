@@ -76,12 +76,14 @@ namespace CorveTool.DAL.Repositories
         {
             var record = Find(key);
             _context.Set<T>().Remove(record);
+            SaveChanges();
         }
 
         public async Task RemoveAsync(int key)
         {
             var record = await FindAsync(key);
             _context.Set<T>().Remove(record);
+            await SaveChangesAsync();
         }
 
         public void SaveChanges()
