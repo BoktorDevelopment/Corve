@@ -19,30 +19,38 @@ namespace CorveTool.Controllers
             ScheduleRepository = scheduleRepository;
             TaskRepository = taskRepository;
             UserRepository = userRepository;
-           
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var tasks = await TaskRepository.GetAll();
+            var tasks = await TaskRepository.GetAllAsync();
             ViewData["tasks"] = tasks.Select(x => new TasksViewModel { Id = x.Id, Task = x.Task }).ToList();
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Tasks model)
+        public async Task<IActionResult> Add(TasksViewModel model)
         {
-
-            if (model.Task != "")
+            if (ModelState.IsValid)
             {
-                var task = new Tasks
+                if (model.Task != "")
                 {
-                    Task = model.Task
-                };
+                    var task = new Tasks
+                    {
+                        Task = model.Task
+                    };
 
-                TaskRepository.Add(task);
+                    TaskRepository.Add(task);
+                }
+                return View();
             }
-            return View();
+            else
+            {
+                return View(model);
+            }
+
+
         }
 
         [HttpGet]
@@ -58,7 +66,7 @@ namespace CorveTool.Controllers
             if (!ModelState.IsValid) return View(model);
             try
             {
-                Tasks record = await TaskRepository.Find(model.Id);
+                Tasks record = await TaskRepository.FindAsync(model.Id);
 
                 record.Task = model.Task;
                 TaskRepository.SaveChangesAsync();
@@ -74,7 +82,7 @@ namespace CorveTool.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var res = await TaskRepository.Find(id);
+            var res = await TaskRepository.FindAsync(id);
             TasksViewModel record = new TasksViewModel { Id = res.Id, Task = res.Task };
             return View(record);
         }

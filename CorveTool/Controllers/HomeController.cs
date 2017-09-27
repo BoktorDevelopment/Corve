@@ -29,21 +29,20 @@ namespace CorveTool.Controllers
 
         public async Task<IActionResult> Index()
         {
-            DateTime input = DateTime.Today;
-            int delta = DayOfWeek.Monday - input.DayOfWeek;
-            if (delta > 0)
-                delta -= 7;
-            DateTime monday = input.AddDays(delta);
-
-            if (monday == DateTime.Today && DateTime.Now.ToShortTimeString() == "11:53")
-            {
-                SlackClientTest slackclient = new SlackClientTest();
-            }
-
+            int ID = 0;
             var UserEmail = User.Identity.Name;
-            if (UserRepository.Any(UserEmail) == true)
+            var all = await UserRepository.GetAllAsync();
+            foreach (var item in all)
             {
-                Users user = await UserRepository.FindAsync(UserEmail);
+                if (UserEmail == item.Email)
+                {
+                    ID = item.Id;
+                }
+            }
+            
+            if (UserRepository.Any(ID) == true)
+            {
+                Users user = await UserRepository.FindAsync(ID);
                 ViewData["firstname"] = user.FirstName;
                 ViewData["lastname"] = user.LastName;
                 ViewData["email"] = user.Email;

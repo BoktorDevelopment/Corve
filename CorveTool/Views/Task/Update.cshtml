@@ -1,18 +1,14 @@
-﻿@using System.Web;
-@using CorveTool.DAL.Repositories;
-@model TasksViewModel
+﻿@model TasksViewModel
 @{
-    ViewData["Title"] = "Update";
-
-    
+    ViewData["Title"] = "Update"; 
 }
 
 <h2>Update</h2>
 @using (Html.BeginForm("Update", "Task"))
 {
-    
-    <input type="text" pattern=".{3,}" name="task" value="@Model.Task" required/>  
-    <input type="submit" name="tasksend" value="Update Task" />
+
+    <input asp-for="Task" class="form-control" />
+    <input type="submit" name="tasksend" value="Update Task" class="form-control"/>
 
 }
 @{ 

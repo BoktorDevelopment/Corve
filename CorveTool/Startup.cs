@@ -45,13 +45,17 @@ namespace CorveTool
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DatabaseContext")));
 
             services.AddMvc();
-            services.AddSingleton<IRepository<ScheduleTask>>(new ScheduleTaskRepository(new DatabaseContext()));
-            services.AddSingleton<IRepository<Tasks>>(new TasksRepository(new DatabaseContext()));
-            services.AddSingleton<IRepository<Schedules>>(new ScheduleRepository(new DatabaseContext()));
-            services.AddSingleton<IRepository<CheckList>>(new CheckListRepository(new DatabaseContext()));
-            services.AddSingleton<IRepository<Users>>(new UsersRepository(new DatabaseContext()));
+            //services.AddSingleton<IRepository<ScheduleTask>>(new ScheduleTaskRepository(new DatabaseContext()));
+            //services.AddSingleton<IRepository<Tasks>>(new TaskRepository(new DatabaseContext()));
+            //services.AddSingleton<IRepository<CheckList>>(new CheckListRepository(new DatabaseContext()));
+            //services.AddSingleton<IRepository<Users>>(new UsersRepository(new DatabaseContext()));
+            //services.AddSingleton<IRepository<Schedules>>(new SchedulesRepository(new DatabaseContext()));
+            services.AddScoped<IRepository<ScheduleTask>, ScheduleTaskRepository>();
+            services.AddScoped<IRepository<Tasks>, TaskRepository>();
+            services.AddScoped<IRepository<CheckList>, CheckListRepository>();
+            services.AddScoped<IRepository<Users>, UsersRepository>();
+            services.AddScoped<IRepository<Schedules>, SchedulesRepository>();
 
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿@using CorveTool.DAL.Repositories;
 @using CorveTool.DAL.Models;
 @using CorveTool.DAL.Context;
+@model TasksViewModel;
 @{
     ViewData["Title"] = "Add";
 
@@ -14,7 +15,7 @@
 <div style="width: 200px;">
 @using (Html.BeginForm("Add", "Task")) { 
 <form action="/" method="post">
-    <input type="text" pattern=".{3,}" class="form-control" name="task" value="" required/>
+    <input asp-for="Task" class="form-control"/>
     <input type="submit" class="form-control" name="Send task" value="Send task" />
 </form>
 }   

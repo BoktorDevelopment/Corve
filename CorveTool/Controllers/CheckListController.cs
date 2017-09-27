@@ -38,7 +38,7 @@ namespace CorveTool.Controllers
         {
             foreach (var item in Checked)
             {
-                CheckList result = await ChecklistRepository.Find(item);
+                CheckList result = await ChecklistRepository.FindAsync(item);
                 result.Checked = true;
                 ChecklistRepository.SaveChangesAsync();
             }
@@ -48,7 +48,7 @@ namespace CorveTool.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var checklist = (await ChecklistRepository.GetAll()).Select(x => new CheckListViewModel { Id = x.Id, Task = x.Task, WeekNumber = x.WeekNumber, Checked = x.Checked }).ToList();
+            var checklist = (await ChecklistRepository.GetAllAsync()).Select(x => new CheckListViewModel { Id = x.Id, Task = x.Task, WeekNumber = x.WeekNumber, Checked = x.Checked }).ToList();
             ViewData["weeknumber"] = weeknumber;
 
             return View(checklist);
@@ -57,7 +57,7 @@ namespace CorveTool.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CheckListViewModel model)
         {
-            var task = await TaskRepository.Find(model.TaskId);
+            var task = await TaskRepository.FindAsync(model.TaskId);
 
             var info = new CheckList
             {
@@ -80,7 +80,7 @@ namespace CorveTool.Controllers
             ViewData["weeknumbers"] = cal.GetWeekOfYear(date1, dfi.CalendarWeekRule,
                                                 dfi.FirstDayOfWeek);
 
-            var tasks = await TaskRepository.GetAll();
+            var tasks = await TaskRepository.GetAllAsync();
             ViewData["tasks"] = tasks.Select(x => new TasksViewModel { Id = x.Id, Task = x.Task }).ToList();
 
             return View();

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using CorveTool.DAL.Models;
 using CorveTool.DAL.Repositories;
+using CorveTool.Models;
 using CorveTool.DAL.Context;
 
 namespace CorveTool.Controllers
@@ -58,25 +59,32 @@ namespace CorveTool.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(Users model)
+        public async Task<IActionResult> Register(UsersViewModel model)
         {
-            var userinfo = new Users
+            if (ModelState.IsValid) {
+                var userinfo = new Users
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    SlackName = model.SlackName
+                };
+
+                await UserRepository.AddAsync(userinfo);
+
+                return Redirect("../Home/Index");
+            }
+            else
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                SlackName = model.SlackName
-            };
-
-            UserRepository.Add(userinfo);
-
-            return Redirect("../Home/Index");
+                return View(model);
+            }
         }
         [HttpGet]
         public IActionResult Register()
         {
             var UserEmail = User.Identity.Name;
-            if (UserRepository.Any(UserEmail) == true)
+            var record = UserRepository.FindAsync(UserEmail);
+            if (UserRepository.Any(record.Id) == true)
             {
                 return Redirect("../Home/Index");
             }
