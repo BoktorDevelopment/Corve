@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  corvetool:
+    image: corvetool
+    build:
+      context: ./CorveTool
+      dockerfile: Dockerfile

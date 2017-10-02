@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Owin;
-using System;
 
 [assembly: OwinStartup(typeof(CorveTool.Startup))]
 
@@ -45,11 +44,6 @@ namespace CorveTool
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DatabaseContext")));
 
             services.AddMvc();
-            //services.AddSingleton<IRepository<ScheduleTask>>(new ScheduleTaskRepository(new DatabaseContext()));
-            //services.AddSingleton<IRepository<Tasks>>(new TaskRepository(new DatabaseContext()));
-            //services.AddSingleton<IRepository<CheckList>>(new CheckListRepository(new DatabaseContext()));
-            //services.AddSingleton<IRepository<Users>>(new UsersRepository(new DatabaseContext()));
-            //services.AddSingleton<IRepository<Schedules>>(new SchedulesRepository(new DatabaseContext()));
             services.AddScoped<IRepository<ScheduleTask>, ScheduleTaskRepository>();
             services.AddScoped<IRepository<Tasks>, TaskRepository>();
             services.AddScoped<IRepository<CheckList>, CheckListRepository>();
@@ -86,8 +80,8 @@ namespace CorveTool
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
-         
-                SlackClientTest slackclient = new SlackClientTest();
+
+            SlackClientTest slackclient = new SlackClientTest();
 
 
             RecurringJob.AddOrUpdate(() => slackclient.Postmessage(), "0 9 * * *");
